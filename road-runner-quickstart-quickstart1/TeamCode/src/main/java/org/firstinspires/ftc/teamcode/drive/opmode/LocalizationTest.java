@@ -18,16 +18,22 @@ import org.firstinspires.ftc.teamcode.util.Encoder;
  */
 @TeleOp(group = "drive")
 public class LocalizationTest extends LinearOpMode {
-    private DcMotor LFMotor;
-    private DcMotor RFMotor;
-    private DcMotor LBMotor;
-    private DcMotor RBMotor;
+    private DcMotor LFMotor = null;
+    private DcMotor RFMotor = null;
+    private DcMotor LBMotor = null;
+    private DcMotor RBMotor = null;
 
-    private Encoder leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LBMotor"));
+    private Encoder leftEncoder;
 
-    private Encoder rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LeftArm"));
+    private Encoder rightEncoder;
 
-    private Encoder frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "Encoder"));
+    private Encoder frontEncoder;
+
+    //private DcMotor LeftArm = null;
+
+    {
+
+    }
 
 
     public void runOpMode() throws InterruptedException {
@@ -36,6 +42,11 @@ public class LocalizationTest extends LinearOpMode {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
+        //LeftArm = hardwareMap.get(DcMotor.class, "LeftArm");
+
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LBMotor"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LeftArm"));
+        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "Encoder"));
 
         leftEncoder.setDirection(Encoder.Direction.REVERSE);
 //nothing plugged into front encoder port
@@ -59,7 +70,7 @@ public class LocalizationTest extends LinearOpMode {
             LBMotor.setPower((py + px + pa) / 2);
             RBMotor.setPower((py - px - pa) / 2);
 
-        }
+
 
         while (!isStopRequested()) {
             drive.setWeightedDrivePower(
@@ -70,13 +81,16 @@ public class LocalizationTest extends LinearOpMode {
                     )
             );
 
-            drive.update();
 
+            drive.update();
+        }
             Pose2d poseEstimate = drive.getPoseEstimate();
+
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.update();
+
         }
     }
 }
