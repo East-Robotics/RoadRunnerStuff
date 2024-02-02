@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.util.Encoder;
  * exercise is to ascertain whether the localizer has been configured properly (note: the pure
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
-@TeleOp(group = "drive")
+@Autonomous(group = "drive")
 public class LocalizationTest extends LinearOpMode {
     private DcMotor LFMotor = null;
     private DcMotor RFMotor = null;
@@ -52,8 +53,8 @@ public class LocalizationTest extends LinearOpMode {
 //nothing plugged into front encoder port
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        LBMotor.setDirection(DcMotor.Direction.REVERSE);
-        LFMotor.setDirection(DcMotor.Direction.REVERSE);
+        RBMotor.setDirection(DcMotor.Direction.REVERSE);
+        RFMotor.setDirection(DcMotor.Direction.REVERSE);
         waitForStart();
 
         while(opModeIsActive()) {
@@ -83,14 +84,16 @@ public class LocalizationTest extends LinearOpMode {
 
 
             drive.update();
-        }
+
             Pose2d poseEstimate = drive.getPoseEstimate();
 
             telemetry.addData("x", poseEstimate.getX());
+            telemetry.update();
             telemetry.addData("y", poseEstimate.getY());
+            telemetry.update();
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.update();
-
+        }
         }
     }
 }

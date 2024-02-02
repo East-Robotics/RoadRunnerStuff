@@ -27,8 +27,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Config
 @Autonomous(group = "drive")
 public class BackAndForth extends LinearOpMode {
-
-    public static double DISTANCE = 50;
+double heading = 50;
+    public static double DISTANCE = 50; //INCHES
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -41,7 +41,11 @@ public class BackAndForth extends LinearOpMode {
         Trajectory trajectoryBackward = drive.trajectoryBuilder(trajectoryForward.end())
                 .back(DISTANCE)
                 .build();
+/*        Trajectory trajectoryRight = drive.trajectoryBuilder(new Pose2d(), 50)
+                .(DISTANCE)
+                .build();
 
+ */
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
