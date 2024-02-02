@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,18 +17,24 @@ import org.firstinspires.ftc.teamcode.util.Encoder;
  * exercise is to ascertain whether the localizer has been configured properly (note: the pure
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
-@TeleOp(group = "drive")
+@Autonomous(group = "drive")
 public class LocalizationTest extends LinearOpMode {
-    private DcMotor LFMotor;
-    private DcMotor RFMotor;
-    private DcMotor LBMotor;
-    private DcMotor RBMotor;
+    private DcMotor LFMotor = null;
+    private DcMotor RFMotor = null;
+    private DcMotor LBMotor = null;
+    private DcMotor RBMotor = null;
 
-    private Encoder leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LBMotor"));
+    private Encoder leftEncoder;
 
-    private Encoder rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LeftArm"));
+    private Encoder rightEncoder;
 
-    private Encoder frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "Encoder"));
+    private Encoder frontEncoder;
+
+    //private DcMotor LeftArm = null;
+
+    {
+
+    }
 
 
     public void runOpMode() throws InterruptedException {
@@ -36,13 +43,18 @@ public class LocalizationTest extends LinearOpMode {
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
+        //LeftArm = hardwareMap.get(DcMotor.class, "LeftArm");
+
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LBMotor"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LeftArm"));
+        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "Encoder"));
 
         leftEncoder.setDirection(Encoder.Direction.REVERSE);
 //nothing plugged into front encoder port
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        LBMotor.setDirection(DcMotor.Direction.REVERSE);
-        LFMotor.setDirection(DcMotor.Direction.REVERSE);
+        RBMotor.setDirection(DcMotor.Direction.REVERSE);
+        RFMotor.setDirection(DcMotor.Direction.REVERSE);
         waitForStart();
 
         while(opModeIsActive()) {
@@ -59,7 +71,7 @@ public class LocalizationTest extends LinearOpMode {
             LBMotor.setPower((py + px + pa) / 2);
             RBMotor.setPower((py - px - pa) / 2);
 
-        }
+
 
         while (!isStopRequested()) {
             drive.setWeightedDrivePower(
@@ -70,13 +82,18 @@ public class LocalizationTest extends LinearOpMode {
                     )
             );
 
+
             drive.update();
 
             Pose2d poseEstimate = drive.getPoseEstimate();
+
             telemetry.addData("x", poseEstimate.getX());
+            telemetry.update();
             telemetry.addData("y", poseEstimate.getY());
+            telemetry.update();
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.update();
+        }
         }
     }
 }
