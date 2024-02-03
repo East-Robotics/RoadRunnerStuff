@@ -45,7 +45,7 @@ public class AutoFarRed extends LinearOpMode {
 
     String Prop;
     static final double     FORWARD_SPEED = 0.4;
- double DISTANCE = 33;
+ double DISTANCE = 25;
 
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -79,7 +79,7 @@ public class AutoFarRed extends LinearOpMode {
                         .turn(Math.toRadians(90))
                         .build();
         Trajectory trajleft3 = drive.trajectoryBuilder(trajectoryLeftturn.end())
-                .back(5)
+                .back(8)
                 .build();
         Trajectory trajleft4 = drive.trajectoryBuilder(trajleft3.end())
                 .forward(5)
@@ -92,8 +92,8 @@ public class AutoFarRed extends LinearOpMode {
                 .strafeRight(20)
                 .build();
 
-        Trajectory trajectoryRightturn = drive.trajectoryBuilder(trajectoryRight2.end())
-                .splineTo(new Vector2d(-30,-5),0)
+        Trajectory trajectoryRightturn = drive.trajectoryBuilder(trajectoryRight.end())
+                .splineTo(new Vector2d(-30,10),0)
                 .build();
         Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
                 .back(5)
