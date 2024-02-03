@@ -67,33 +67,48 @@ public class AutoFarBlue extends LinearOpMode {
                     .build();
 
             Trajectory trajectoryLeft = drive.trajectoryBuilder(new Pose2d(0,0,0))
-                    .lineTo(new Vector2d(-25, 0))
+                    .lineTo(new Vector2d(-20, 0))
                     .build();
             Trajectory trajectoryLeft2 = drive.trajectoryBuilder(new Pose2d())
                     .strafeRight(20)
                     .build();
             TrajectorySequence trajectoryLeftturn = drive.trajectorySequenceBuilder(trajectoryLeft2.end())
-                    .turn(Math.toRadians(90))
+                    .turn(Math.toRadians(50))
                     .build();
             Trajectory trajleft3 = drive.trajectoryBuilder(trajectoryLeftturn.end())
-                    .back(8)
+                    .back(13)
                     .build();
             Trajectory trajleft4 = drive.trajectoryBuilder(trajleft3.end())
-                    .forward(5)
+                    .forward(8)
+                    .build();
+            TrajectorySequence trajleft5 = drive.trajectorySequenceBuilder(trajleft4.end())
+                    .turn(Math.toRadians(-60))
+                    .build();
+            TrajectorySequence trajleft6 = drive.trajectorySequenceBuilder(trajleft5.end())
+                    .back(25)
+                    .build();
+            TrajectorySequence trajleft7 = drive.trajectorySequenceBuilder(trajleft6.end())
+                    .turn(Math.toRadians(-85))
+                    .build();
+            TrajectorySequence trajleft8 = drive.trajectorySequenceBuilder(trajleft7.end())
+                    .back(65)
+                    .build();
+            TrajectorySequence trajleft9 = drive.trajectorySequenceBuilder(trajleft8.end())
+                    .strafeRight(10)
                     .build();
 
             Trajectory trajectoryRight = drive.trajectoryBuilder(new Pose2d(0,0,0))
-                    .lineTo(new Vector2d(-30, 0))
+                    .lineTo(new Vector2d(-20, 0))
                     .build();
             Trajectory trajectoryRight2 = drive.trajectoryBuilder(new Pose2d())
                     .strafeRight(20)
                     .build();
 
-            Trajectory trajectoryRightturn = drive.trajectoryBuilder(trajectoryRight.end())
-                    .splineTo(new Vector2d(-20,10),0)
+            TrajectorySequence trajectoryRightturn = drive.trajectorySequenceBuilder(trajectoryRight.end())
+                    .turn(Math.toRadians(-40))
                     .build();
             Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
-                    .back(5)
+                    .back(18)
                     .build();
             Trajectory trajright4 = drive.trajectoryBuilder(trajright3.end())
                     .forward(5)
@@ -113,19 +128,19 @@ public class AutoFarBlue extends LinearOpMode {
 
             if (distanceInInches < 25) {
 
-                telemetry.addData("Telemetry", "Prop is Left");
-                telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
-                telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
-                telemetry.update();
-                Prop = "Left";
-
-            } else if (distanceRight < 25) {
-
                 telemetry.addData("Telemetry", "Prop is Right");
                 telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
                 telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
                 telemetry.update();
                 Prop = "Right";
+
+            } else if (distanceRight < 25) {
+
+                telemetry.addData("Telemetry", "Prop is Left");
+                telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
+                telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
+                telemetry.update();
+                Prop = "Left";
             }
             else{
                 telemetry.addData("Telemetry", "Prop is Center");
@@ -144,10 +159,15 @@ public class AutoFarBlue extends LinearOpMode {
                 drive.followTrajectorySequence(trajectoryLeftturn);
                 drive.followTrajectory(trajleft3);
                 drive.followTrajectory(trajleft4);
+                /*drive.followTrajectorySequence(trajleft5);
+                drive.followTrajectorySequence(trajleft6);
+                drive.followTrajectorySequence(trajleft7);
+                drive.followTrajectorySequence(trajleft8);
+                drive.followTrajectorySequence(trajleft9);*/
             } else if (Prop == "Right") {
                 drive.followTrajectory(trajectoryRight2);
                 drive.followTrajectory(trajectoryRight);
-                drive.followTrajectory(trajectoryRightturn);
+                drive.followTrajectorySequence(trajectoryRightturn);
                 drive.followTrajectory(trajright3);
                 drive.followTrajectory(trajright4);
 
