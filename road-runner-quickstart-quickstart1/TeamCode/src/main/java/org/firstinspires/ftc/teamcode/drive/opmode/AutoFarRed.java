@@ -127,7 +127,9 @@ public class AutoFarRed extends LinearOpMode {
         //check if distance is within 20 inches
 
 
-        waitForStart();
+//        waitForStart();
+
+        while(opModeInInit()) {
 
         if (distanceInInches < 25) {
 
@@ -151,9 +153,9 @@ public class AutoFarRed extends LinearOpMode {
             telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
             telemetry.update();
             Prop = "Center";
-        }
-        if (Prop == "Center") {
-            drive.followTrajectory(trajectoryBack1);
+}       }
+       if (Prop == "Center") {
+           drive.followTrajectory(trajectoryBack1);
             drive.followTrajectory(trajectoryBack);
             drive.followTrajectory(trajBack2);
         } else if (Prop == "Left") {
