@@ -111,7 +111,7 @@ public class AutoFarRed extends LinearOpMode {
                 .turn(Math.toRadians(-50))
                 .build();
         Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
-                .back(13)
+                .back(15)
                 .build();
         Trajectory trajright4 = drive.trajectoryBuilder(trajright3.end())
                 .forward(5)
