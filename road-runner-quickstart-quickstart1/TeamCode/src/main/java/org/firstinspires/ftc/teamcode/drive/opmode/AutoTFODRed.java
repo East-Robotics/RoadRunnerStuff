@@ -92,7 +92,7 @@ public class AutoTFODRed extends LinearOpMode {
 
     private boolean  redPropDetected = false;
 
-    private void driveForwardUsingOdometry() {
+    private void driveCenterUsingOdometry() {
         // Assuming you have a SampleMecanumDrive object named 'drive'
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
@@ -106,6 +106,32 @@ public class AutoTFODRed extends LinearOpMode {
         );
     }
 
+    private void driveBackwardAndTurn() {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        // Drive 20 inches backward
+        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
+                .back(20.0)
+                .build()
+        );
+
+        // Turn left (you can change this to right if needed)
+        drive.turn(Math.toRadians(-30)); // Turn left 30 degrees
+    }
+
+    private void driveCenterAfterUsingOdometry() {
+        // Assuming you have a SampleMecanumDrive object named 'drive'
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        // Set the desired forward distance
+        double distanceToDrive = 10.0; // Adjust as needed
+
+        // Drive forward for the specified distance using odometry pods
+        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
+                .back(distanceToDrive)
+                .build()
+        );
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -220,7 +246,6 @@ public class AutoTFODRed extends LinearOpMode {
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
-        boolean redPropDetected = false;
         for (Recognition recognition : currentRecognitions) {
             if (recognition.getLabel().equals("RedProp")) {
                 redPropDetected = true;
@@ -231,7 +256,7 @@ public class AutoTFODRed extends LinearOpMode {
         if (redPropDetected) {
             telemetry.addData("Action", "Red prop detected. Moving forward.");
             // Perform movement using odometry pods to drive forward
-            driveForwardUsingOdometry();
+            driveCenterUsingOdometry();
 
             // Set the flag to indicate that the object has been detected
             redPropDetected = true;
@@ -239,6 +264,13 @@ public class AutoTFODRed extends LinearOpMode {
         } else {
             telemetry.addData("Action", "No red prop detected. Waiting.");
             // If no red prop is detected, you might want to stop the robot or take alternative action.
+
+            driveBackwardAndTurn();
+
+                if (redPropDetected) {
+                    telemetry.addData("Action", "Red prop detected. Moving forward.");
+                    driveCenterAfterUsingOdometry();
+                }
 
         }
 
