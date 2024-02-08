@@ -76,7 +76,7 @@ public class AutoFarBlue extends LinearOpMode {
                     .turn(Math.toRadians(50))
                     .build();
             Trajectory trajleft3 = drive.trajectoryBuilder(trajectoryLeftturn.end())
-                    .back(13)
+                    .lineTo(new Vector2d(-25,-18))
                     .build();
             Trajectory trajleft4 = drive.trajectoryBuilder(trajleft3.end())
                     .forward(8)
@@ -108,7 +108,7 @@ public class AutoFarBlue extends LinearOpMode {
                     .turn(Math.toRadians(-40))
                     .build();
             Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
-                    .back(18)
+                    .back(15)
                     .build();
             Trajectory trajright4 = drive.trajectoryBuilder(trajright3.end())
                     .forward(5)
@@ -159,11 +159,11 @@ public class AutoFarBlue extends LinearOpMode {
                 drive.followTrajectorySequence(trajectoryLeftturn);
                 drive.followTrajectory(trajleft3);
                 drive.followTrajectory(trajleft4);
-                /*drive.followTrajectorySequence(trajleft5);
+                drive.followTrajectorySequence(trajleft5);
                 drive.followTrajectorySequence(trajleft6);
                 drive.followTrajectorySequence(trajleft7);
                 drive.followTrajectorySequence(trajleft8);
-                drive.followTrajectorySequence(trajleft9);*/
+                drive.followTrajectorySequence(trajleft9);
             } else if (Prop == "Right") {
                 drive.followTrajectory(trajectoryRight2);
                 drive.followTrajectory(trajectoryRight);

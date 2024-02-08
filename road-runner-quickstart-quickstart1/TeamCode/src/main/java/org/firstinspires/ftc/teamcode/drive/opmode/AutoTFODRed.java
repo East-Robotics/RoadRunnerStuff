@@ -27,52 +27,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.firstinspires.ftc.teamcode.drive.opmode;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
-
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.profile.MotionProfile;
-import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
-import com.acmerobotics.roadrunner.profile.MotionState;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.kinematics.Kinematics;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-
-
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+
 
 import java.util.List;
 
@@ -118,15 +88,22 @@ public class AutoTFODRed extends LinearOpMode {
 
     private DcMotor RBMotor;
 
-    private DcMotor InTakeRight;
+    private ElapsedTime runtime = new ElapsedTime();
 
-    private SampleMecanumDrive drive;
+    private void driveForwardUsingOdometry() {
+        // Assuming you have a SampleMecanumDrive object named 'drive'
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-    String Prop;
+        // Set the desired forward distance
+        double distanceToDrive = 30.0; // Adjust as needed
 
-    static final double     FORWARD_SPEED = 0.4;
+        // Drive forward for the specified distance using odometry pods
+        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
+                .back(distanceToDrive)
+                .build()
+        );
+    }
 
-double DISTANCE = 30;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -134,69 +111,6 @@ double DISTANCE = 30;
         RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
         LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
-
-        int rotations = 900;
-
-        Trajectory trajectoryBack = drive.trajectoryBuilder(new Pose2d())
-                .back(DISTANCE)
-                .build();
-        Trajectory trajectoryBack1 = drive.trajectoryBuilder(new Pose2d())
-                .strafeRight(15)
-                .build();
-        Trajectory trajBack2 = drive.trajectoryBuilder(trajectoryBack.end())
-                .forward(10)
-                .build();
-
-        Trajectory trajectoryLeft = drive.trajectoryBuilder(new Pose2d(0,0,0))
-                .lineTo(new Vector2d(-20, 0))
-                .build();
-        Trajectory trajectoryLeft2 = drive.trajectoryBuilder(new Pose2d())
-                .strafeRight(20)
-                .build();
-        TrajectorySequence trajectoryLeftturn = drive.trajectorySequenceBuilder(trajectoryLeft2.end())
-                .turn(Math.toRadians(50))
-                .build();
-        Trajectory trajleft3 = drive.trajectoryBuilder(trajectoryLeftturn.end())
-                .back(9)
-                .build();
-        Trajectory trajleft4 = drive.trajectoryBuilder(trajleft3.end())
-                .forward(8)
-                .build();
-        TrajectorySequence trajleft5 = drive.trajectorySequenceBuilder(trajleft4.end())
-                .turn(Math.toRadians(-60))
-                .build();
-        TrajectorySequence trajleft6 = drive.trajectorySequenceBuilder(trajleft5.end())
-                .back(25)
-                .build();
-        TrajectorySequence trajleft7 = drive.trajectorySequenceBuilder(trajleft6.end())
-                .turn(Math.toRadians(-85))
-                .build();
-        TrajectorySequence trajleft8 = drive.trajectorySequenceBuilder(trajleft7.end())
-                .back(65)
-                .build();
-        TrajectorySequence trajleft9 = drive.trajectorySequenceBuilder(trajleft8.end())
-                .strafeRight(10)
-                .build();
-
-        Trajectory trajectoryRight = drive.trajectoryBuilder(new Pose2d(0,0,0))
-                .lineTo(new Vector2d(-18, 0))
-                .build();
-        Trajectory trajectoryRight2 = drive.trajectoryBuilder(new Pose2d())
-                .strafeRight(20)
-                .build();
-
-        TrajectorySequence trajectoryRightturn = drive.trajectorySequenceBuilder(trajectoryRight.end())
-                .turn(Math.toRadians(-50))
-                .build();
-        Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
-                .back(15)
-                .build();
-        Trajectory trajright4 = drive.trajectoryBuilder(trajright3.end())
-                .forward(5)
-                .build();
-
-        telemetry.addData("Status", "Running");
-        telemetry.update();
 
         initTfod();
 
@@ -211,30 +125,7 @@ double DISTANCE = 30;
             while (opModeIsActive()) {
 
                 telemetryTfod();
-                List<Recognition> currentRecognitions = tfod.getRecognitions();
 
-                // Check if the "RedProp" is detected
-                boolean redPropDetected = false;
-                for (Recognition recognition : currentRecognitions) {
-                    if ("RedProp".equals(recognition.getLabel()) && recognition.getConfidence() > 0.80) {
-                        redPropDetected = true;
-                        break;
-                    }
-                }
-
-                // Drive forward if the "RedProp" is detected
-                if (redPropDetected) {
-                    LFMotor.setPower(FORWARD_SPEED);
-                    RFMotor.setPower(FORWARD_SPEED);
-                    LBMotor.setPower(FORWARD_SPEED);
-                    RBMotor.setPower(FORWARD_SPEED);
-                } else {
-                    // Stop the motors if "RedProp" is not detected
-                    LFMotor.setPower(0);
-                    RFMotor.setPower(0);
-                    LBMotor.setPower(0);
-                    RBMotor.setPower(0);
-                }
                 // Push telemetry to the Driver Station.
                 telemetry.update();
 
@@ -315,29 +206,38 @@ double DISTANCE = 30;
         tfod.setMinResultConfidence(0.80f);
 
         // Disable or re-enable the TFOD processor at any time.
-        //visionPortal.setProcessorEnabled(tfod, true);
+        // visionPortal.setProcessorEnabled(tfod, false);
 
     }   // end method initTfod()
 
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-    private void telemetryTfod() {
 
+    private void telemetryTfod() {
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
-        // Step through the list of recognitions and display info for each one.
+        boolean redPropDetected = false;
         for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            if (recognition.getLabel().equals("RedProp")) {
+                redPropDetected = true;
+                break;
+            }
+        }
 
-            telemetry.addData(""," ");
-            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-        }   // end for() loop
+        if (redPropDetected) {
+            telemetry.addData("Action", "Red prop detected. Moving forward.");
+            // Perform movement using odometry pods to drive forward
+            driveForwardUsingOdometry();
+            visionPortal.close();
+        } else {
+            telemetry.addData("Action", "No red prop detected. Waiting.");
+            // If no red prop is detected, you might want to stop the robot or take alternative action.
+        }
 
-    }   // end method telemetryTfod()
+
+    }
+
 
 }   // end class
