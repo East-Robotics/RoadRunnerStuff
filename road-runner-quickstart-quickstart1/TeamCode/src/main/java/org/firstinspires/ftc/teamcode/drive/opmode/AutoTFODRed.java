@@ -90,6 +90,8 @@ public class AutoTFODRed extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+    private boolean  redPropDetected = false;
+
     private void driveForwardUsingOdometry() {
         // Assuming you have a SampleMecanumDrive object named 'drive'
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -122,7 +124,7 @@ public class AutoTFODRed extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            while (opModeIsActive()) {
+            while (opModeIsActive() && !redPropDetected) {
 
                 telemetryTfod();
 
@@ -230,13 +232,18 @@ public class AutoTFODRed extends LinearOpMode {
             telemetry.addData("Action", "Red prop detected. Moving forward.");
             // Perform movement using odometry pods to drive forward
             driveForwardUsingOdometry();
-            visionPortal.close();
+
+            // Set the flag to indicate that the object has been detected
+            redPropDetected = true;
+
         } else {
             telemetry.addData("Action", "No red prop detected. Waiting.");
             // If no red prop is detected, you might want to stop the robot or take alternative action.
+
         }
 
-
+        // Disable the TFOD processor to stop further detections
+        visionPortal.setProcessorEnabled(tfod, false);
     }
 
 
