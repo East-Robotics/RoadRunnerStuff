@@ -76,25 +76,25 @@ public class AutoFarRed2 extends LinearOpMode {
                 .turn(Math.toRadians(30))
                 .build();
         Trajectory trajleft3 = drive.trajectoryBuilder(trajectoryLeftturn.end())
-                .lineTo(new Vector2d(-25,-12))
+                .lineTo(new Vector2d(-23,-13))
                 .build();
         Trajectory trajleft4 = drive.trajectoryBuilder(trajleft3.end())
                 .forward(15)
                 .build();
         TrajectorySequence trajleft5 = drive.trajectorySequenceBuilder(trajleft4.end())
-                .turn(Math.toRadians(-45))
+                .turn(Math.toRadians(-43))
                 .build();
         TrajectorySequence trajleft6 = drive.trajectorySequenceBuilder(trajleft5.end())
-                .back(35)
+                .back(40)
                 .build();
         TrajectorySequence trajleft7 = drive.trajectorySequenceBuilder(trajleft6.end())
-                .turn(Math.toRadians(-85))
+                .turn(Math.toRadians(-89))
                 .build();
         TrajectorySequence trajleft8 = drive.trajectorySequenceBuilder(trajleft7.end())
                 .back(69)
                 .build();
         TrajectorySequence trajleft9 = drive.trajectorySequenceBuilder(trajleft8.end())
-                .strafeTo(new Vector2d(40,15))
+                .strafeTo(new Vector2d(60,30))
                 .build();
 
         Trajectory trajectoryRight = drive.trajectoryBuilder(new Pose2d(0,0,0))
