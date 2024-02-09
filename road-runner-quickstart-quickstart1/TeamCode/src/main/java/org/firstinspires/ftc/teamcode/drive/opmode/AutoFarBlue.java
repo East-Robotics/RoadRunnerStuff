@@ -124,31 +124,35 @@ public class AutoFarBlue extends LinearOpMode {
             //check if distance is within 20 inches
 
 
-            waitForStart();
-
+            //waitForStart();
+           while (opModeInInit()){
             if (distanceInInches < 25) {
-
-                telemetry.addData("Telemetry", "Prop is Right");
+                telemetry.clear();
+                telemetry.update();
+                telemetry.addData("Prop is", Prop);
                 telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
                 telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
                 telemetry.update();
                 Prop = "Right";
 
-            } else if (distanceRight < 25) {
-
-                telemetry.addData("Telemetry", "Prop is Left");
+            } if (distanceRight < 25) {
+                telemetry.clear();
+                telemetry.update();
+                telemetry.addData("Prop is", Prop);
                 telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
                 telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
                 telemetry.update();
                 Prop = "Left";
             }
-            else{
+            if((Prop != "Left") && (Prop != "Right")){
+                telemetry.clear();
+                telemetry.update();
                 telemetry.addData("Telemetry", "Prop is Center");
                 telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
                 telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
                 telemetry.update();
                 Prop = "Center";
-            }
+            }}
             if (Prop == "Center") {
                 drive.followTrajectory(trajectoryBack1);
                 drive.followTrajectory(trajectoryBack);

@@ -26,23 +26,16 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.firstinspires.ftc.teamcode.drive.opmode;
+
+package org.firstinspires.ftc.robotcontroller.external.samples;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-
 
 import java.util.List;
 
@@ -53,9 +46,8 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "AutoTFODRed", group = "Concept")
-
-public class AutoTFODRed extends LinearOpMode {
+@Autonomous(name = "Concept: TensorFlow Object Detection", group = "Concept")
+public class tfodauto extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -80,92 +72,8 @@ public class AutoTFODRed extends LinearOpMode {
      */
     private VisionPortal visionPortal;
 
-    private DcMotor LFMotor;
-
-    private DcMotor RFMotor;
-
-    private DcMotor LBMotor;
-
-    private DcMotor RBMotor;
-
-    private ElapsedTime runtime = new ElapsedTime();
-
-    private boolean  redPropDetected = false;
-
-    private void driveCenterUsingOdometry() {
-        // Assuming you have a SampleMecanumDrive object named 'drive'
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        // Set the desired forward distance
-        double distanceToDrive = 32.0; // Adjust as needed
-
-        // Drive forward for the specified distance using odometry pods
-        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .back(distanceToDrive)
-                .build()
-        );
-    }
-
-    private void driveBackwardAndTurnRight() {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        // Drive 20 inches backward
-        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .back(20.0)
-                .build()
-        );
-
-        // Turn left (you can change this to right if needed)
-        drive.turn(Math.toRadians(-30)); // Turn right 30 degrees
-    }
-
-    private void driveBackwardAndTurnLeft() {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        // Drive 20 inches backward
-        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .back(20.0)
-                .build()
-        );
-
-        // Turn left (you can change this to right if needed)
-        drive.turn(Math.toRadians(30)); // Turn left 30 degrees
-    }
-
-    private void driveCenterAfterUsingOdometry() {
-        // Assuming you have a SampleMecanumDrive object named 'drive'
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        // Set the desired forward distance
-        double distanceToDrive = 10.0; // Adjust as needed
-
-        // Drive forward for the specified distance using odometry pods
-        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .back(distanceToDrive)
-                .build()
-        );
-    }
-
-    private void resetposition() {
-        // Assuming you have a SampleMecanumDrive object named 'drive'
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        // Set the desired forward distance
-        double distanceToDrive = 5.0; // Adjust as needed
-
-        // Drive forward for the specified distance using odometry pods
-        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .forward(distanceToDrive)
-                .build()
-        );
-    }
-
     @Override
-    public void runOpMode() throws InterruptedException {
-        LFMotor = hardwareMap.get(DcMotor.class, "LFMotor");
-        RFMotor = hardwareMap.get(DcMotor.class, "RFMotor");
-        LBMotor = hardwareMap.get(DcMotor.class, "LBMotor");
-        RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
+    public void runOpMode() {
 
         initTfod();
 
@@ -173,11 +81,10 @@ public class AutoTFODRed extends LinearOpMode {
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
-
         waitForStart();
 
         if (opModeIsActive()) {
-            while (opModeIsActive() && !redPropDetected) {
+            while (opModeIsActive()) {
 
                 telemetryTfod();
 
@@ -212,9 +119,9 @@ public class AutoTFODRed extends LinearOpMode {
                 // With the following lines commented out, the default TfodProcessor Builder
                 // will load the default model for the season. To define a custom model to load,
                 // choose one of the following:
-                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
-                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
                 .setModelAssetName(TFOD_MODEL_ASSET)
+                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                //.setModelAssetName(TFOD_MODEL_ASSET)
                 //.setModelFileName(TFOD_MODEL_FILE)
 
                 // The following default settings are available to un-comment and edit as needed to
@@ -261,18 +168,19 @@ public class AutoTFODRed extends LinearOpMode {
         tfod.setMinResultConfidence(0.45f);
 
         // Disable or re-enable the TFOD processor at any time.
-        // visionPortal.setProcessorEnabled(tfod, false);
+        //visionPortal.setProcessorEnabled(tfod, true);
 
     }   // end method initTfod()
 
     /**
      * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
-
     private void telemetryTfod() {
+
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
+        // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
@@ -281,25 +189,8 @@ public class AutoTFODRed extends LinearOpMode {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+        }   // end for() loop
 
-            if (redPropDetected && x > 345) { //detects right side
-                telemetry.addData("Right", "");
-                resetposition();
-                driveBackwardAndTurnRight();
-                driveCenterAfterUsingOdometry();
-            } else if (redPropDetected && x < 345) { //detects left side
-                telemetry.addData("Center", "");
-                resetposition();
-                driveCenterUsingOdometry();
-            } else {
-                telemetry.addData("Left", "");
-                resetposition();
-                driveBackwardAndTurnLeft();
-                driveCenterAfterUsingOdometry();
-            }
-        }
-
-    }
-
+    }   // end method telemetryTfod()
 
 }   // end class
