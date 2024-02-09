@@ -149,14 +149,8 @@ public class AutoTFODRed extends LinearOpMode {
     private void resetposition() {
         // Assuming you have a SampleMecanumDrive object named 'drive'
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        // Set the desired forward distance
-        double distanceToDrive = 5.0; // Adjust as needed
-
-        // Drive forward for the specified distance using odometry pods
-        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .forward(distanceToDrive)
-                .build()
+        // Turn left (you can change this to right if needed)
+        drive.turn(Math.toRadians(10)); // Turn left 30 degrees
         );
     }
 
@@ -194,6 +188,8 @@ public class AutoTFODRed extends LinearOpMode {
                 // Share the CPU.
                 sleep(20);
             }
+
+
         }
 
         // Save more CPU resources when camera is no longer needed.
@@ -281,6 +277,10 @@ public class AutoTFODRed extends LinearOpMode {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+            if (recognition.getConfidence() >= 0.45) {
+                redPropDetected = true
+                telemetry.addData("Red Prop Detected: ", "Confidence: %s", recognition.getConfidence());
+            }
 
             if (redPropDetected && x > 345) { //detects right side
                 telemetry.addData("Right", "");
