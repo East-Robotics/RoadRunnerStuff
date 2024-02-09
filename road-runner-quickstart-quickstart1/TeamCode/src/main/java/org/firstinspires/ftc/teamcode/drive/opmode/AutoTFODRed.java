@@ -287,7 +287,7 @@ public class AutoTFODRed extends LinearOpMode {
                 resetposition();
                 driveBackwardAndTurnRight();
                 driveCenterAfterUsingOdometry();
-            } else if (redPropDetected && x < 345) { //detects left side
+            } else if (redPropDetected && x < 345) { //detects left (center spike) side
                 telemetry.addData("Center", "");
                 resetposition();
                 driveCenterUsingOdometry();
