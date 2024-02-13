@@ -38,6 +38,7 @@ public class CenterStageDriveCode extends LinearOpMode {
         Plane = hardwareMap.get(Servo.class, "Plane");
         TrapdoorL = hardwareMap.get(Servo.class, "TrapdoorL");
         TrapdoorR = hardwareMap.get(Servo.class, "TrapdoorR");
+        TrapdoorR.setDirection(Servo.Direction.REVERSE);
         LBMotor.setDirection(DcMotor.Direction.REVERSE);
         LFMotor.setDirection(DcMotor.Direction.REVERSE);
         IntakeRight.setDirection(DcMotor.Direction.FORWARD);
@@ -59,9 +60,13 @@ public class CenterStageDriveCode extends LinearOpMode {
         boolean lastLBState = false;
         boolean currentYState = false;
         boolean lastYState = false;
+        boolean lastLB2State = false;
+        boolean lastRB2State = false;
+        boolean currentLB2State = false;
+        boolean currentRB2State = false;
         boolean currentLBState = false;
 //        boolean trapdoor = true;
-        Servo.Direction REVERSE;
+
 
 
         telemetry.addData("Status", "Running");
@@ -88,7 +93,9 @@ public class CenterStageDriveCode extends LinearOpMode {
             currentAState = gamepad2.a;
             currentXState = gamepad2.x;
             currentLBState = gamepad1.left_bumper;
-            currentYState = gamepad2.y;
+            currentLB2State = gamepad2.left_bumper;
+            currentRB2State = gamepad2.right_bumper;
+
 
 
 
@@ -133,7 +140,7 @@ public class CenterStageDriveCode extends LinearOpMode {
                 IntakeRight.setPower(0);
             }
             else {
-                IntakeRight.setPower(0.6);
+                IntakeRight.setPower(1);
             }
 
             if(currentXState && !lastXState){
@@ -203,24 +210,36 @@ public class CenterStageDriveCode extends LinearOpMode {
                 RightArm.setPower(0);
                 LeftArm.setPower(0);
             }
-            if(currentYState && !lastYState){
-//        LtrapdoorIsOpen = !LtrapdoorIsOpen;
-//        RtrapdoorIsOpen = !RtrapdoorIsOpen;
+            if(currentLB2State && !lastLB2State){
+        LtrapdoorIsOpen = !LtrapdoorIsOpen;
             }
 
-            lastYState = currentYState;
+            lastLB2State = currentLB2State;
 
-            if (LtrapdoorIsOpen && RtrapdoorIsOpen){
-                Ltrapdoorposition = 0.25;
-                Rtrapdoorposition = 0.25;
+            if (LtrapdoorIsOpen){
+                TrapdoorL.setPosition(0.2);
 
             }
             else{
-                Ltrapdoorposition = 0.75;
-                Rtrapdoorposition = 0.0;
+                TrapdoorL.setPosition(0.6);
+
             }
-            TrapdoorL.setPosition(Ltrapdoorposition);
-            TrapdoorR.setPosition(Rtrapdoorposition);
+            if(currentRB2State && !lastRB2State){
+                RtrapdoorIsOpen = !RtrapdoorIsOpen;
+            }
+
+            lastRB2State = currentRB2State;
+
+            if (RtrapdoorIsOpen){
+                TrapdoorR.setPosition(0.0);
+
+            }
+            else{
+                TrapdoorR.setPosition(0.4);
+
+            }
+            //TrapdoorL.setPosition(Ltrapdoorposition);
+            //TrapdoorR.setPosition(Rtrapdoorposition);
         }
 
     }
