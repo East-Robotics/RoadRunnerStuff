@@ -1,0 +1,6 @@
+include ':FtcRobotController'
+include ':TeamCode'
+project(':FtcRobotController').projectDir = new File(rootDir, 'road-runner-quickstart-quickstart1/FtcRobotController/')
+project(':TeamCode').projectDir = new File(rootDir, 'road-runner-quickstart-quickstart1/TeamCode/')
+include ':FtcRobotController'
+include ':TeamCode'
