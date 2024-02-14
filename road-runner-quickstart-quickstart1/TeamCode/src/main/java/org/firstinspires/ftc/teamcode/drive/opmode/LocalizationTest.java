@@ -46,15 +46,15 @@ public class LocalizationTest extends LinearOpMode {
         //LeftArm = hardwareMap.get(DcMotor.class, "LeftArm");
 
         leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LBMotor"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "RFMotor"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "LeftArm"));
         frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "Encoder"));
 
         leftEncoder.setDirection(Encoder.Direction.REVERSE);
 //nothing plugged into front encoder port
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        RBMotor.setDirection(DcMotor.Direction.REVERSE);
-        RFMotor.setDirection(DcMotor.Direction.REVERSE);
+        LBMotor.setDirection(DcMotor.Direction.REVERSE);
+        LFMotor.setDirection(DcMotor.Direction.REVERSE);
         waitForStart();
 
         while(opModeIsActive()) {

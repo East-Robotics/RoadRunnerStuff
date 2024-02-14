@@ -86,9 +86,9 @@ public class CenterStageDriveCode extends LinearOpMode {
             double pa = gamepad1.right_stick_x;
 
             LFMotor.setPower((py-px+pa) / 1.5);
-            RFMotor.setPower((py-px-pa) / 1.5);
+            RFMotor.setPower((py+px-pa) / 1.5);
             LBMotor.setPower((py+px+pa) / 1.5);
-            RBMotor.setPower((py+px-pa) / 1.5);
+            RBMotor.setPower((py-px-pa) / 1.5);
 
             currentAState = gamepad2.a;
             currentXState = gamepad2.x;

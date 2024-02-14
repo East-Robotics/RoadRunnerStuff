@@ -49,7 +49,7 @@ public class AutoTFODRedV2 extends LinearOpMode {
                 .build()
         );
         // Turn right
-        drive.turn(Math.toRadians(-30)); // Turn right 30 degrees
+        drive.turn(Math.toRadians(-35)); // Turn right 30 degrees
     }
 
     private void driveBackwardAndTurnLeft() {
@@ -60,13 +60,13 @@ public class AutoTFODRedV2 extends LinearOpMode {
                 .build()
         );
         // Turn left
-        drive.turn(Math.toRadians(30)); // Turn left 30 degrees
+        drive.turn(Math.toRadians(35)); // Turn left 30 degrees
     }
     private void driveCenterAfterUsingOdometry() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         // Drive backward for the specified distance using odometry pods
         drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .back(10)
+                .back(20)
                 .build()
         );
     }
@@ -98,7 +98,7 @@ public class AutoTFODRedV2 extends LinearOpMode {
                 // Push telemetry to the Driver Station.
                 telemetry.update();
                 // Share the CPU.
-                sleep(1000);
+                sleep(100);
             }
         }
         // Save more CPU resources when camera is no longer needed.
@@ -160,10 +160,18 @@ public class AutoTFODRedV2 extends LinearOpMode {
             }
             if (redPropDetected && (x > 345 && x < 600)) { //detects right side
                 telemetry.addData("Right", "");
+                resetposition();
+                driveBackwardAndTurnRight();
+                driveCenterAfterUsingOdometry();
             } else if (redPropDetected && (x < 345 && x > 60)) { //detects left (center spike) side
                 telemetry.addData("Center", "");
-            } else {
+                resetposition();
+                driveCenterUsingOdometry();
+            } else{
                 telemetry.addData("Left", "");
+                resetposition();
+                driveBackwardAndTurnLeft();
+                driveCenterAfterUsingOdometry();
             }
         }
 
