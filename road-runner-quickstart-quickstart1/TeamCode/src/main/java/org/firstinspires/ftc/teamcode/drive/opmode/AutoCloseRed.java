@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 @Autonomous
-public class AutoFarRed2 extends LinearOpMode {
+public class AutoCloseRed extends LinearOpMode {
 
 
 
@@ -91,11 +91,11 @@ public class AutoFarRed2 extends LinearOpMode {
                 .turn(Math.toRadians(-100))
                 .build();
         TrajectorySequence trajleft8 = drive.trajectorySequenceBuilder(trajleft7.end())
-                .back(85)
+                .back(35)
                 .build();
-       // TrajectorySequence trajleft9 = drive.trajectorySequenceBuilder(trajleft8.end())
-         //       .strafeTo(new Vector2d(60,30))
-           //     .build();
+        // TrajectorySequence trajleft9 = drive.trajectorySequenceBuilder(trajleft8.end())
+        //       .strafeTo(new Vector2d(60,30))
+        //     .build();
 
         Trajectory trajectoryRight = drive.trajectoryBuilder(new Pose2d(0,0,0))
                 .lineTo(new Vector2d(-20, 0))
@@ -114,11 +114,11 @@ public class AutoFarRed2 extends LinearOpMode {
                 .forward(10)
                 .build();
         TrajectorySequence trajright5 = drive.trajectorySequenceBuilder((trajright4.end()))
-                        .turn(Math.toRadians(50))
-                                .build();
+                .turn(Math.toRadians(50))
+                .build();
         TrajectorySequence trajright6 = drive.trajectorySequenceBuilder(trajright5.end())
-                        .back(30)
-                                .build();
+                .back(30)
+                .build();
         telemetry.addData("Status", "Running");
         telemetry.update();
 
@@ -168,7 +168,7 @@ public class AutoFarRed2 extends LinearOpMode {
             drive.followTrajectorySequence(trajleft6);
             drive.followTrajectorySequence(trajleft7);
             drive.followTrajectorySequence(trajleft8);
-        //    drive.followTrajectorySequence(trajleft9);
+            //    drive.followTrajectorySequence(trajleft9);
         } else if (Prop == "Right") {
             drive.followTrajectory(trajectoryRight2);
             drive.followTrajectory(trajectoryRight);

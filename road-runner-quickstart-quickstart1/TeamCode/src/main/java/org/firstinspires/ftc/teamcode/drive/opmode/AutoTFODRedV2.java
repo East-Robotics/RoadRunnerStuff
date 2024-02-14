@@ -167,7 +167,7 @@ public class AutoTFODRedV2 extends LinearOpMode {
                 telemetry.addData("Center", "");
                 resetposition();
                 driveCenterUsingOdometry();
-            } else{
+            } else if (!redPropDetected){
                 telemetry.addData("Left", "");
                 resetposition();
                 driveBackwardAndTurnLeft();
