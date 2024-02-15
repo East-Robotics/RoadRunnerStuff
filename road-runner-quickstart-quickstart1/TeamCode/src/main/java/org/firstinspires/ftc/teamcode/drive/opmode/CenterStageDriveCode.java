@@ -86,9 +86,9 @@ public class CenterStageDriveCode extends LinearOpMode {
             double pa = gamepad1.right_stick_x;
 
             LFMotor.setPower((py-px+pa) / 1.5);
-            RFMotor.setPower((py+px-pa) / 1.5);
+            RFMotor.setPower((py-px-pa) / 1.5);
             LBMotor.setPower((py+px+pa) / 1.5);
-            RBMotor.setPower((py-px-pa) / 1.5);
+            RBMotor.setPower((py+px-pa) / 1.5);
 
             currentAState = gamepad2.a;
             currentXState = gamepad2.x;
@@ -113,15 +113,15 @@ public class CenterStageDriveCode extends LinearOpMode {
             }
             if (gamepad1.dpad_right){
                 LFMotor.setPower(-0.7);
-                RFMotor.setPower(0.7);
+                RFMotor.setPower(-0.7);
                 LBMotor.setPower(0.7);
-                RBMotor.setPower(-0.7);
+                RBMotor.setPower(0.7);
             }
             if (gamepad1.dpad_left){
                 LFMotor.setPower(0.7);
-                RFMotor.setPower(-0.7);
+                RFMotor.setPower(0.7);
                 LBMotor.setPower(-0.7);
-                RBMotor.setPower(0.7);
+                RBMotor.setPower(-0.7);
             }
             if (gamepad1.x){
                 Plane.setPosition(0);
@@ -164,22 +164,6 @@ public class CenterStageDriveCode extends LinearOpMode {
 
 
             if (gamepad2.dpad_up){
-
-/*        int rotations = -5000;
-
-        RightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LeftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        RightArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LeftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        RightArm.setTargetPosition(rotations);
-        LeftArm.setTargetPosition(rotations);
-
-        RightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LeftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
- */
                 RightArm.setPower(-1);
                 LeftArm.setPower(-1);
             }
@@ -188,21 +172,6 @@ public class CenterStageDriveCode extends LinearOpMode {
                 LeftArm.setPower(0);
             }
             if (gamepad2.dpad_down){
-/*                int rotations = 5000;
-
-        RightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LeftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        RightArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LeftArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        RightArm.setTargetPosition(rotations);
-        LeftArm.setTargetPosition(rotations);
-
-        RightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LeftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-  */
                 RightArm.setPower(1);
                 LeftArm.setPower(1);
             }
@@ -210,11 +179,11 @@ public class CenterStageDriveCode extends LinearOpMode {
                 RightArm.setPower(0);
                 LeftArm.setPower(0);
             }
-            if(currentLB2State && !lastLB2State){
+            if(currentRB2State && !lastRB2State){
         LtrapdoorIsOpen = !LtrapdoorIsOpen;
             }
 
-            lastLB2State = currentLB2State;
+            lastRB2State = currentRB2State;
 
             if (LtrapdoorIsOpen){
                 TrapdoorR.setPosition(0.0);
@@ -224,11 +193,11 @@ public class CenterStageDriveCode extends LinearOpMode {
                 TrapdoorR.setPosition(0.4);
 
             }
-            if(currentRB2State && !lastRB2State){
+            if(currentLB2State && !lastLB2State){
                 RtrapdoorIsOpen = !RtrapdoorIsOpen;
             }
 
-            lastRB2State = currentRB2State;
+            lastLB2State = currentLB2State;
 
             if (RtrapdoorIsOpen){
                 TrapdoorL.setPosition(0.2);

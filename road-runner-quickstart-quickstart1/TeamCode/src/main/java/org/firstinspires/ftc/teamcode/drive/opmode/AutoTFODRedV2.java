@@ -36,7 +36,7 @@ public class AutoTFODRedV2 extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         // Drive backward for the specified distance using odometry pods
         drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .back(34.0)
+                .back(28.0)
                 .build()
         );
     }
@@ -50,7 +50,7 @@ public class AutoTFODRedV2 extends LinearOpMode {
                 .build()
         );
         // Turn right
-        drive.turn(Math.toRadians(-35)); // Turn right 30 degrees
+        drive.turn(Math.toRadians(-45)); // Turn right 30 degrees
     }
 
     private void driveBackwardAndTurnLeft() {
@@ -61,13 +61,13 @@ public class AutoTFODRedV2 extends LinearOpMode {
                 .build()
         );
         // Turn left
-        drive.turn(Math.toRadians(35)); // Turn left 30 degrees
+        drive.turn(Math.toRadians(45)); // Turn left 30 degrees
     }
     private void driveCenterAfterUsingOdometry() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         // Drive backward for the specified distance using odometry pods
         drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .back(20)
+                .back(12.5)
                 .build()
         );
     }
@@ -158,17 +158,22 @@ public class AutoTFODRedV2 extends LinearOpMode {
             } else {
                 telemetryTfod();
             }
-            if (redPropDetected && (x > 345 && x < 600)) { //detects right side
+            if (redPropDetected && (x > 345 && x < 600)){ //detects right side
                 telemetry.addData("Right", "");
+                telemetry.update();
                 prop = "right";
-            } else if (redPropDetected && (x < 345 && x > 60)) { //detects left (center spike) side
+            }
+             else if (redPropDetected && (x < 345 && x > 60)){ //detects left (center spike) side
                 telemetry.addData("Center", "");
+                telemetry.update();
                 prop = "center";
-            } else {
+            }
+             else{
                 telemetry.addData("Left", "");
+                telemetry.update();
                 prop = "left";
             }
-            if (prop == "left") {
+            if (prop.equals("left")) {
                 resetposition();
                 driveBackwardAndTurnLeft();
                 driveCenterAfterUsingOdometry();

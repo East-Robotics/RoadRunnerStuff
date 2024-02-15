@@ -1,29 +1,20 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
 
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.profile.MotionProfile;
-import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
-import com.acmerobotics.roadrunner.profile.MotionState;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.kinematics.Kinematics;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
+
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 @Autonomous
-public class AutoCloseRed extends LinearOpMode {
+public class AutoCloseBlue extends LinearOpMode {
 
 
 
@@ -69,7 +60,7 @@ public class AutoCloseRed extends LinearOpMode {
                 .forward(27)
                 .build();
         TrajectorySequence trajBack3 = drive.trajectorySequenceBuilder(trajBack2.end())
-                .turn(Math.toRadians(-97))
+                .turn(Math.toRadians(97))
                 .build();
         TrajectorySequence trajBack4 = drive.trajectorySequenceBuilder(trajBack3.end())
                 .back(35)
@@ -98,7 +89,7 @@ public class AutoCloseRed extends LinearOpMode {
                 .forward(18)
                 .build();
         TrajectorySequence trajleft7 = drive.trajectorySequenceBuilder(trajleft6.end())
-                .turn(Math.toRadians(-97))
+                .turn(Math.toRadians(97))
                 .build();
         TrajectorySequence trajleft8 = drive.trajectorySequenceBuilder(trajleft7.end())
                 .back(35)
@@ -115,7 +106,7 @@ public class AutoCloseRed extends LinearOpMode {
                 .build();
 
         TrajectorySequence trajectoryRightturn = drive.trajectorySequenceBuilder(trajectoryRight.end())
-                .turn(Math.toRadians(-32))
+                .turn(Math.toRadians(-35))
                 .build();
         Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
                 .back(13)
@@ -124,13 +115,13 @@ public class AutoCloseRed extends LinearOpMode {
                 .forward(15)
                 .build();
         TrajectorySequence trajright5 = drive.trajectorySequenceBuilder((trajright4.end()))
-                .turn(Math.toRadians(32))
+                .turn(Math.toRadians(35))
                 .build();
         TrajectorySequence trajright6 = drive.trajectorySequenceBuilder(trajright5.end())
                 .forward(20)
                 .build();
         TrajectorySequence trajright7 = drive.trajectorySequenceBuilder(trajleft6.end())
-                .turn(Math.toRadians(-97))
+                .turn(Math.toRadians(97))
                 .build();
         TrajectorySequence trajright8 = drive.trajectorySequenceBuilder(trajleft7.end())
                 .back(35)

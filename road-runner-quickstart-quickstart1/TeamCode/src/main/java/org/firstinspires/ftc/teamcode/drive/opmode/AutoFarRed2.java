@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.kinematics.Kinematics;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -42,7 +43,7 @@ public class AutoFarRed2 extends LinearOpMode {
 
     String Prop;
     static final double     FORWARD_SPEED = 0.4;
-    double DISTANCE = 35;
+    double DISTANCE = 28;
 
 
 
@@ -65,8 +66,15 @@ public class AutoFarRed2 extends LinearOpMode {
                 .strafeRight(15)
                 .build();
         Trajectory trajBack2 = drive.trajectoryBuilder(trajectoryBack.end())
-                .forward(10)
+                .forward(27)
                 .build();
+        TrajectorySequence trajBack3 = drive.trajectorySequenceBuilder(trajBack2.end())
+                .turn(Math.toRadians(-97))
+                .build();
+        TrajectorySequence trajBack4 = drive.trajectorySequenceBuilder(trajBack3.end())
+                .back(75)
+                .build();
+
 
         Trajectory trajectoryLeft = drive.trajectoryBuilder(new Pose2d(0,0,0))
                 .lineTo(new Vector2d(-15, 0))
@@ -78,7 +86,7 @@ public class AutoFarRed2 extends LinearOpMode {
                 .turn(Math.toRadians(30))
                 .build();
         Trajectory trajleft3 = drive.trajectoryBuilder(trajectoryLeftturn.end())
-                .back(23)
+                .back(18)
                 .build();
         Trajectory trajleft4 = drive.trajectoryBuilder(trajleft3.end())
                 .forward(15)
@@ -87,16 +95,16 @@ public class AutoFarRed2 extends LinearOpMode {
                 .turn(Math.toRadians(-30))
                 .build();
         TrajectorySequence trajleft6 = drive.trajectorySequenceBuilder(trajleft5.end())
-                .forward(22)
+                .forward(18)
                 .build();
         TrajectorySequence trajleft7 = drive.trajectorySequenceBuilder(trajleft6.end())
-                .turn(Math.toRadians(-102))
+                .turn(Math.toRadians(-97))
                 .build();
         TrajectorySequence trajleft8 = drive.trajectorySequenceBuilder(trajleft7.end())
-                .back(90)
+                .back(75)
                 .build();
         TrajectorySequence trajleft9 = drive.trajectorySequenceBuilder(trajleft8.end())
-                .strafeRight(30)
+                .back(40)
                 .build();
 
         Trajectory trajectoryRight = drive.trajectoryBuilder(new Pose2d(0,0,0))
@@ -110,17 +118,23 @@ public class AutoFarRed2 extends LinearOpMode {
                 .turn(Math.toRadians(-32))
                 .build();
         Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
-                .back(23)
+                .back(19)
                 .build();
         Trajectory trajright4 = drive.trajectoryBuilder(trajright3.end())
-                .forward(10)
+                .forward(15)
                 .build();
         TrajectorySequence trajright5 = drive.trajectorySequenceBuilder((trajright4.end()))
-                        .turn(Math.toRadians(50))
+                        .turn(Math.toRadians(32))
                                 .build();
         TrajectorySequence trajright6 = drive.trajectorySequenceBuilder(trajright5.end())
-                        .back(30)
+                        .forward(20)
                                 .build();
+        TrajectorySequence trajright7 = drive.trajectorySequenceBuilder(trajleft6.end())
+                .turn(Math.toRadians(-97))
+                .build();
+        TrajectorySequence trajright8 = drive.trajectorySequenceBuilder(trajleft7.end())
+                .back(75)
+                .build();
         telemetry.addData("Status", "Running");
         telemetry.update();
 
@@ -160,23 +174,35 @@ public class AutoFarRed2 extends LinearOpMode {
             drive.followTrajectory(trajectoryBack1);
             drive.followTrajectory(trajectoryBack);
             drive.followTrajectory(trajBack2);
+            drive.followTrajectorySequence(trajBack3);
+            drive.followTrajectorySequence(trajBack4);
         } else if (Prop == "Left") {
             drive.followTrajectory(trajectoryLeft2);
             drive.followTrajectory(trajectoryLeft);
             drive.followTrajectorySequence(trajectoryLeftturn);
             drive.followTrajectory(trajleft3);
             drive.followTrajectory(trajleft4);
-          //  drive.followTrajectorySequence(trajleft5);
-          //  drive.followTrajectorySequence(trajleft6);
-          //  drive.followTrajectorySequence(trajleft7);
-          //  drive.followTrajectorySequence(trajleft8);
-          //  drive.followTrajectorySequence(trajleft9);
+            drive.followTrajectorySequence(trajleft5);
+            drive.followTrajectorySequence(trajleft6);
+            drive.followTrajectorySequence(trajleft7);
+            drive.followTrajectorySequence(trajleft8);
+            LFMotor.setDirection(DcMotor.Direction.REVERSE);
+            LBMotor.setDirection(DcMotor.Direction.FORWARD);
+            RFMotor.setDirection(DcMotor.Direction.FORWARD);
+            RBMotor.setDirection(DcMotor.Direction.REVERSE);
+            drive.followTrajectorySequence(trajleft9);
+            RBMotor.setDirection(DcMotor.Direction.FORWARD);
+            RFMotor.setDirection(DcMotor.Direction.FORWARD);
         } else if (Prop == "Right") {
             drive.followTrajectory(trajectoryRight2);
             drive.followTrajectory(trajectoryRight);
             drive.followTrajectorySequence(trajectoryRightturn);
             drive.followTrajectory(trajright3);
             drive.followTrajectory(trajright4);
+            drive.followTrajectorySequence(trajright5);
+            drive.followTrajectorySequence(trajright6);
+            drive.followTrajectorySequence(trajright7);
+            drive.followTrajectorySequence(trajright8);
 
         }
         while (opModeIsActive()){

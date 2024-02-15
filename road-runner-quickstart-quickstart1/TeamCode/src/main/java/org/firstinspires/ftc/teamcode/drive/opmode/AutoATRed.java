@@ -45,28 +45,44 @@ public class AutoATRed extends LinearOpMode {
      * Method to raise the arm of the robot.
      */
     private void raiseArm() {
-        // Add code to raise the arm here
-        RightArm.setPower(-0.5); // Adjust power level as needed
-        LeftArm.setPower(-0.5); // Adjust power level as needed
-    }
+        // Set target position for the arm motors (example values)
+        int targetPosition = 10000; // Adjust as needed
+        RightArm.setTargetPosition(targetPosition);
+        LeftArm.setTargetPosition(targetPosition);
 
-    /**
-     * Method to raise the wrist of the robot.
-     */
+        // Set power to raise the arm
+        double power = 0.-5; // Adjust as needed
+        RightArm.setPower(power);
+        LeftArm.setPower(power);
+
+        // Wait until arm motors reach target position
+        while (opModeIsActive() && (RightArm.isBusy() || LeftArm.isBusy())) {
+            // Continue looping until arm motors reach target position
+            // You can add additional logic or telemetry here if needed
+            idle(); // Yield CPU to other threads
+        }
+
+        // Stop arm motors
+        RightArm.setPower(0);
+        LeftArm.setPower(0);
+    }
     private void raiseWrist() {
-        // Add code to raise the wrist here
-        LeftWrist.setPosition(0.5); // Adjust servo position as needed
-        RightWrist.setPosition(0.5); // Adjust servo position as needed
+        // Set position to raise the wrist (example values)
+        double targetPosition = 0.6; // Adjust as needed
+        LeftWrist.setPosition(targetPosition);
+        RightWrist.setPosition(targetPosition);
     }
 
     /**
      * Method to raise the trapdoors of the robot.
      */
     private void raiseTrapdoors() {
-        // Add code to raise the trapdoors here
-        TrapdoorL.setPosition(-1.0); // Adjust servo position as needed
-        TrapdoorR.setPosition(1.0); // Adjust servo position as needed
+        // Set position to raise the trapdoors (example values)
+        double targetPosition = 0.8; // Adjust as needed
+        TrapdoorL.setPosition(targetPosition);
+        TrapdoorR.setPosition(targetPosition);
     }
+
     @Override
     public void runOpMode() {
 
@@ -198,7 +214,6 @@ public class AutoATRed extends LinearOpMode {
                 telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
                 // Check if the ID is 4 or the name is "RedAllianceLeft"
                 if (detection.id == 4 || detection.metadata.name.equals("RedAllianceLeft")) {
-                    // Perform actions: raise arm, raise wrist, raise trapdoors
                     raiseArm();
                     raiseWrist();
                     raiseTrapdoors();
