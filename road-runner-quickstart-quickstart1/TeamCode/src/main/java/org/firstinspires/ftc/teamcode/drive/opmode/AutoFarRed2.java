@@ -87,16 +87,16 @@ public class AutoFarRed2 extends LinearOpMode {
                 .turn(Math.toRadians(-30))
                 .build();
         TrajectorySequence trajleft6 = drive.trajectorySequenceBuilder(trajleft5.end())
-                .forward(20)
+                .forward(22)
                 .build();
         TrajectorySequence trajleft7 = drive.trajectorySequenceBuilder(trajleft6.end())
-                .turn(Math.toRadians(-100))
+                .turn(Math.toRadians(-102))
                 .build();
         TrajectorySequence trajleft8 = drive.trajectorySequenceBuilder(trajleft7.end())
-                .back(69)
+                .back(90)
                 .build();
         TrajectorySequence trajleft9 = drive.trajectorySequenceBuilder(trajleft8.end())
-                .strafeTo(new Vector2d(60,30))
+                .strafeRight(30)
                 .build();
 
         Trajectory trajectoryRight = drive.trajectoryBuilder(new Pose2d(0,0,0))
@@ -166,11 +166,11 @@ public class AutoFarRed2 extends LinearOpMode {
             drive.followTrajectorySequence(trajectoryLeftturn);
             drive.followTrajectory(trajleft3);
             drive.followTrajectory(trajleft4);
-            drive.followTrajectorySequence(trajleft5);
-            drive.followTrajectorySequence(trajleft6);
-            drive.followTrajectorySequence(trajleft7);
-            drive.followTrajectorySequence(trajleft8);
-            drive.followTrajectorySequence(trajleft9);
+          //  drive.followTrajectorySequence(trajleft5);
+          //  drive.followTrajectorySequence(trajleft6);
+          //  drive.followTrajectorySequence(trajleft7);
+          //  drive.followTrajectorySequence(trajleft8);
+          //  drive.followTrajectorySequence(trajleft9);
         } else if (Prop == "Right") {
             drive.followTrajectory(trajectoryRight2);
             drive.followTrajectory(trajectoryRight);

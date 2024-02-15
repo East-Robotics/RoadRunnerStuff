@@ -30,12 +30,13 @@ public class AutoTFODRedV2 extends LinearOpMode {
     private VisionPortal visionPortal;
     private DcMotor LFMotor, RFMotor, LBMotor, RBMotor;
     private ElapsedTime runtime = new ElapsedTime();
+    String prop;
     private boolean redPropDetected = false;
     private void driveCenterUsingOdometry() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         // Drive backward for the specified distance using odometry pods
         drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
-                .back(32.0)
+                .back(34.0)
                 .build()
         );
     }
@@ -154,23 +155,29 @@ public class AutoTFODRedV2 extends LinearOpMode {
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
             if (recognition.getConfidence() >= 0.45) {
                 redPropDetected = true;
-                telemetry.addData("Red Prop Detected: ", "Confidence: %s", recognition.getConfidence());
             } else {
                 telemetryTfod();
             }
             if (redPropDetected && (x > 345 && x < 600)) { //detects right side
                 telemetry.addData("Right", "");
-                resetposition();
-                driveBackwardAndTurnRight();
-                driveCenterAfterUsingOdometry();
+                prop = "right";
             } else if (redPropDetected && (x < 345 && x > 60)) { //detects left (center spike) side
                 telemetry.addData("Center", "");
-                resetposition();
-                driveCenterUsingOdometry();
-            } else if (!redPropDetected){
+                prop = "center";
+            } else {
                 telemetry.addData("Left", "");
+                prop = "left";
+            }
+            if (prop == "left") {
                 resetposition();
                 driveBackwardAndTurnLeft();
+                driveCenterAfterUsingOdometry();
+            } else if (prop == "center") {
+                resetposition();
+                driveCenterUsingOdometry();
+            } else if (prop == "right") {
+                resetposition();
+                driveBackwardAndTurnRight();
                 driveCenterAfterUsingOdometry();
             }
         }
