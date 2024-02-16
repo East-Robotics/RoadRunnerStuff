@@ -46,12 +46,12 @@ public class AutoATRed extends LinearOpMode {
      */
     private void raiseArm() {
         // Set target position for the arm motors (example values)
-        int targetPosition = 10000; // Adjust as needed
+        int targetPosition = 1000; // Adjust as needed
         RightArm.setTargetPosition(targetPosition);
         LeftArm.setTargetPosition(targetPosition);
 
         // Set power to raise the arm
-        double power = 0.-5; // Adjust as needed
+        double power = -1.0; // Adjust as needed
         RightArm.setPower(power);
         LeftArm.setPower(power);
 
@@ -68,7 +68,7 @@ public class AutoATRed extends LinearOpMode {
     }
     private void raiseWrist() {
         // Set position to raise the wrist (example values)
-        double targetPosition = 0.6; // Adjust as needed
+        double targetPosition = 0.65; // Adjust as needed
         LeftWrist.setPosition(targetPosition);
         RightWrist.setPosition(targetPosition);
     }
@@ -78,9 +78,18 @@ public class AutoATRed extends LinearOpMode {
      */
     private void raiseTrapdoors() {
         // Set position to raise the trapdoors (example values)
-        double targetPosition = 0.8; // Adjust as needed
-        TrapdoorL.setPosition(targetPosition);
-        TrapdoorR.setPosition(targetPosition);
+        double LtargetPosition = 0.6; // Adjust as needed
+        double RtargetPosition = 0.4;
+        TrapdoorL.setPosition(LtargetPosition);
+        TrapdoorR.setPosition(RtargetPosition);
+    }
+    private void driveBacktoATOdometry() {
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        // Drive backward for the specified distance using odometry pods
+        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d())
+                .back(5.0)
+                .build()
+        );
     }
 
     @Override
@@ -213,7 +222,8 @@ public class AutoATRed extends LinearOpMode {
                 telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
                 telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
                 // Check if the ID is 4 or the name is "RedAllianceLeft"
-                if (detection.id == 4 || detection.metadata.name.equals("RedAllianceLeft")) {
+                if (detection.id == 6 || detection.metadata.name.equals("RedAllianceRight")) {
+                    driveBacktoATOdometry();
                     raiseArm();
                     raiseWrist();
                     raiseTrapdoors();

@@ -179,11 +179,11 @@ public class CenterStageDriveCode extends LinearOpMode {
                 RightArm.setPower(0);
                 LeftArm.setPower(0);
             }
-            if(currentRB2State && !lastRB2State){
+            if(currentLB2State && !lastLB2State){
         LtrapdoorIsOpen = !LtrapdoorIsOpen;
             }
 
-            lastRB2State = currentRB2State;
+            lastLB2State = currentLB2State;
 
             if (LtrapdoorIsOpen){
                 TrapdoorR.setPosition(0.0);
@@ -193,11 +193,11 @@ public class CenterStageDriveCode extends LinearOpMode {
                 TrapdoorR.setPosition(0.4);
 
             }
-            if(currentLB2State && !lastLB2State){
+            if(currentRB2State && !lastRB2State){
                 RtrapdoorIsOpen = !RtrapdoorIsOpen;
             }
 
-            lastLB2State = currentLB2State;
+            lastRB2State = currentRB2State;
 
             if (RtrapdoorIsOpen){
                 TrapdoorL.setPosition(0.2);

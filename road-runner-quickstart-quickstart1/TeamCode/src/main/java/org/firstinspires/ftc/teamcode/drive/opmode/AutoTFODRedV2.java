@@ -160,24 +160,21 @@ public class AutoTFODRedV2 extends LinearOpMode {
             }
             if (redPropDetected && (x > 345 && x < 600)){ //detects right side
                 telemetry.addData("Right", "");
-                telemetry.update();
                 prop = "right";
             }
              else if (redPropDetected && (x < 345 && x > 60)){ //detects left (center spike) side
                 telemetry.addData("Center", "");
-                telemetry.update();
                 prop = "center";
             }
-             else{
+             else {
                 telemetry.addData("Left", "");
-                telemetry.update();
                 prop = "left";
             }
-            if (prop.equals("left")) {
+            if (prop == ("left")) {
                 resetposition();
                 driveBackwardAndTurnLeft();
                 driveCenterAfterUsingOdometry();
-            } else if (prop == "center") {
+            } else if (prop == ("center")) {
                 resetposition();
                 driveCenterUsingOdometry();
             } else if (prop == "right") {
