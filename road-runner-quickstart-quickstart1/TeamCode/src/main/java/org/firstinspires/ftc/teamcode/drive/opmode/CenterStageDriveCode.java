@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -182,7 +181,7 @@ public class CenterStageDriveCode extends LinearOpMode {
                 Plane.setPosition(1);
             }
             if(currentRBState && !lastRBState){
-                intakerun = !intakerun;
+                intakerun = !intakerun
             }
 
             lastRBState = currentRBState;
@@ -227,16 +226,14 @@ public class CenterStageDriveCode extends LinearOpMode {
 
 
             if (gamepad2.dpad_up){
-
-            RightArm.setDirection(DcMotor.Direction.REVERSE);
-            LeftArm.setDirection(DcMotor.Direction.REVERSE);
-                RightArm.setPower(1);
-                LeftArm.setPower(1);
+                RightArm.setPower(-1);
+                LeftArm.setPower(-1);
             }
-
-            else if (gamepad2.dpad_down){
-                RightArm.setDirection(DcMotor.Direction.FORWARD);
-                LeftArm.setDirection(DcMotor.Direction.FORWARD);
+            else{
+                RightArm.setPower(0);
+                LeftArm.setPower(0);
+            }
+            if (gamepad2.dpad_down){
                 RightArm.setPower(1);
                 LeftArm.setPower(1);
             }
@@ -271,9 +268,6 @@ public class CenterStageDriveCode extends LinearOpMode {
             else{
                 TrapdoorL.setPosition(0.6);
 
-            }
-            if (gamepad2.y){
-                minion.setPosition(0.5);
             }
             //TrapdoorL.setPosition(Ltrapdoorposition);
             //TrapdoorR.setPosition(Rtrapdoorposition);
