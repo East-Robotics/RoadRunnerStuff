@@ -120,7 +120,6 @@ public class AutoTFODRedV2 extends LinearOpMode {
                     telemetry.addData("Right", "");
                     resetposition();
                     driveBackwardAndTurnRight();
-                    driveCenterAfterUsingOdometry();
                 } else if (x < LEFT_SIDE_MAX_X && x > LEFT_SIDE_MIN_X) { // detects left (center spike) side
                     telemetry.addData("Center", "");
                     resetposition();
@@ -134,26 +133,28 @@ public class AutoTFODRedV2 extends LinearOpMode {
             telemetry.addData("Left", "");
             resetposition();
             driveBackwardAndTurnLeft();
-            driveCenterAfterUsingOdometry();
         }
     }
 
     private void driveCenterUsingOdometry() {
         drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).back(DRIVE_CENTER_DISTANCE).build());
+        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).back(-DRIVE_CENTER_DISTANCE).build());
     }
 
     private void driveBackwardAndTurnRight() {
         drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).back(BACKWARD_DISTANCE).build());
         drive.turn(Math.toRadians(TURN_ANGLE_RIGHT));
+        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).back(DRIVE_CENTER_DISTANCE).build());
+        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).back(-DRIVE_CENTER_DISTANCE).build());
+        drive.turn(Math.toRadians(-TURN_ANGLE_RIGHT));
     }
 
     private void driveBackwardAndTurnLeft() {
         drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).back(BACKWARD_DISTANCE).build());
         drive.turn(Math.toRadians(TURN_ANGLE_LEFT));
-    }
-
-    private void driveCenterAfterUsingOdometry() {
         drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).back(DRIVE_CENTER_DISTANCE).build());
+        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).back(-DRIVE_CENTER_DISTANCE).build());
+        drive.turn(Math.toRadians(-TURN_ANGLE_LEFT));
     }
 
     private void resetposition() {
