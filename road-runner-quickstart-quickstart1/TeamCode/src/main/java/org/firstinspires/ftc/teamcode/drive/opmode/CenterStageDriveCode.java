@@ -85,6 +85,8 @@ public class CenterStageDriveCode extends LinearOpMode {
         boolean currentLB2State = false;
         boolean currentRB2State = false;
         boolean currentLBState = false;
+        boolean currentRBState = false;
+        boolean lastRBState = false;
 //        boolean trapdoor = true;
 
 
@@ -113,6 +115,7 @@ public class CenterStageDriveCode extends LinearOpMode {
             currentAState = gamepad2.a;
             currentXState = gamepad2.x;
             currentLBState = gamepad1.left_bumper;
+            currentRBState = gamepad1.right_bumper;
             currentLB2State = gamepad2.left_bumper;
             currentRB2State = gamepad2.right_bumper;
 
@@ -181,14 +184,17 @@ public class CenterStageDriveCode extends LinearOpMode {
             if(currentLBState && !lastLBState){
                 intakerun = !intakerun;
             }
-
+            if(currentRBState && !lastRBState){
+                intakerun = !intakerun;
+            }
             lastLBState = currentLBState;
+            lastRBState = currentRBState
 
             if (intakerun){
-                IntakeRight.setPower(0);
+                IntakeRight.setPower(1);
             }
             else {
-                IntakeRight.setPower(1);
+                IntakeRight.setPower(-1);
             }
 
             if(currentXState && !lastXState){
