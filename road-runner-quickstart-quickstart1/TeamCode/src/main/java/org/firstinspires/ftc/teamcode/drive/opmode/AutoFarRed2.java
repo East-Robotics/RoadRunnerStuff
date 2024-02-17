@@ -55,7 +55,7 @@ public class AutoFarRed2 extends LinearOpMode {
 
     String Prop;
     static final double     FORWARD_SPEED = 0.4;
-    double DISTANCE = 28;
+    double DISTANCE = 30;
 
 
 
@@ -116,7 +116,7 @@ public class AutoFarRed2 extends LinearOpMode {
                 .strafeRight(15)
                 .build();
         Trajectory trajBack2 = drive.trajectoryBuilder(trajectoryBack.end())
-                .forward(25)
+                .forward(27)
                 .build();
         TrajectorySequence trajBack3 = drive.trajectorySequenceBuilder(trajBack2.end())
                 .turn(Math.toRadians(-98.5))

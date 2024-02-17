@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -63,6 +64,7 @@ public class CenterStageDriveCode extends LinearOpMode {
         LFMotor.setDirection(DcMotor.Direction.REVERSE);
         IntakeRight.setDirection(DcMotor.Direction.FORWARD);
         RightWrist.setDirection(Servo.Direction.REVERSE);
+
         boolean rightwristIsOpen = true;
         boolean leftwristIsOpen = true;
         boolean intakerun = true;
@@ -85,6 +87,8 @@ public class CenterStageDriveCode extends LinearOpMode {
         boolean currentLB2State = false;
         boolean currentRB2State = false;
         boolean currentLBState = false;
+        boolean currentRBState = false;
+        boolean lastRBState = false;
 //        boolean trapdoor = true;
 
 
@@ -113,6 +117,7 @@ public class CenterStageDriveCode extends LinearOpMode {
             currentAState = gamepad2.a;
             currentXState = gamepad2.x;
             currentLBState = gamepad1.left_bumper;
+            currentRBState = gamepad1.right_bumper;
             currentLB2State = gamepad2.left_bumper;
             currentRB2State = gamepad2.right_bumper;
 
@@ -177,6 +182,18 @@ public class CenterStageDriveCode extends LinearOpMode {
             else {
                 Plane.setPosition(1);
             }
+            if(currentRBState && !lastRBState){
+                intakerun = !intakerun;
+            }
+            lastRBState = currentRBState;
+
+            if(intakerun){
+                IntakeRight.setPower(0);
+            }
+            else {
+                IntakeRight.setDirection(DcMotor.Direction.REVERSE);
+                IntakeRight.setPower(1);
+            }
 
             if(currentLBState && !lastLBState){
                 intakerun = !intakerun;
@@ -188,6 +205,7 @@ public class CenterStageDriveCode extends LinearOpMode {
                 IntakeRight.setPower(0);
             }
             else {
+                IntakeRight.setDirection(DcMotor.Direction.FORWARD);
                 IntakeRight.setPower(1);
             }
 
