@@ -235,7 +235,7 @@ public class AutoCloseRed extends LinearOpMode {
                 .turn(Math.toRadians(-97))
                 .build();
         TrajectorySequence trajBack4 = drive.trajectorySequenceBuilder(trajBack3.end())
-                .back(25)
+                .back(35)
                 .build();
         TrajectorySequence trajBack5 = drive.trajectorySequenceBuilder(trajBack4.end())
                 .back(15)
@@ -267,7 +267,7 @@ public class AutoCloseRed extends LinearOpMode {
                 .turn(Math.toRadians(-97))
                 .build();
         TrajectorySequence trajleft8 = drive.trajectorySequenceBuilder(trajleft7.end())
-                .back(25)
+                .back(35)
                 .build();
         TrajectorySequence trajleft9 = drive.trajectorySequenceBuilder(trajleft8.end())
                 .back(40)
@@ -299,7 +299,7 @@ public class AutoCloseRed extends LinearOpMode {
                 .turn(Math.toRadians(-97))
                 .build();
         TrajectorySequence trajright8 = drive.trajectorySequenceBuilder(trajright7.end())
-                .back(25)
+                .back(35)
                 .build();
         TrajectorySequence trajright9 = drive.trajectorySequenceBuilder(trajright8.end())
                 .back(15)
@@ -350,7 +350,7 @@ public class AutoCloseRed extends LinearOpMode {
             LBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
             RBMotor.setDirection(DcMotor.Direction.REVERSE);
-            drive.followTrajectorySequence(trajBack5);
+         //   drive.followTrajectorySequence(trajBack5);
             RBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
         } else if (Prop == "Left") {
@@ -367,7 +367,7 @@ public class AutoCloseRed extends LinearOpMode {
             LBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
             RBMotor.setDirection(DcMotor.Direction.REVERSE);
-            drive.followTrajectorySequence(trajleft9);
+         //   drive.followTrajectorySequence(trajleft9);
             RBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
         } else if (Prop == "Right") {
@@ -384,7 +384,7 @@ public class AutoCloseRed extends LinearOpMode {
             LBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
             RBMotor.setDirection(DcMotor.Direction.REVERSE);
-            drive.followTrajectorySequence(trajright9);
+           // drive.followTrajectorySequence(trajright9);
             RBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
           //  ATwork();
