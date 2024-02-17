@@ -30,12 +30,17 @@ public class CenterStageDriveCode extends LinearOpMode {
     ColorSensor LColor;
     RevBlinkinLedDriver lights;
 
-    private void UPJorgw() {
-        double JorgeUPPosition = 1;
-        minion.setPosition(JorgeUPPosition);
+    private void TwoJorge() {
+        double JorgeTwoPosition = 1;
+        minion.setPosition(JorgeTwoPosition);
     }
 
-    private void DOWNJorgw() {
+    private void OneJorge() {
+        double JorgeOnePosiition = -1;
+        minion.setPosition(JorgeOnePosiition);
+    }
+
+    private void ResetJorge() {
         double JorgeDOWNPosition = 0.5;
         minion.setPosition(JorgeDOWNPosition);
     }
@@ -87,6 +92,8 @@ public class CenterStageDriveCode extends LinearOpMode {
         boolean currentLBState = false;
         boolean currentRBState= false;
         boolean lastRBState = false;
+        boolean minionReset = false;
+
 //        boolean trapdoor = true;
 
 
@@ -118,6 +125,7 @@ public class CenterStageDriveCode extends LinearOpMode {
             currentRBState = gamepad1.right_bumper;
             currentLB2State = gamepad2.left_bumper;
             currentRB2State = gamepad2.right_bumper;
+            currentYState = gamepad2.y;
 
             int rRed = RColor.red();
             int rGreen = RColor.green();
@@ -136,18 +144,38 @@ public class CenterStageDriveCode extends LinearOpMode {
             telemetry.addData("LBlue", lBlue);
             telemetry.update();
 
+            if (currentYState && !lastYState){
+                if (minionReset){
+                    TwoJorge();
+                    minionReset = false;
+                } else {
+                    ResetJorge();
+                    minionReset = true;
+                }
+
+                lastYState = currentYState;
+
             if ((rRed > 750 && rGreen > 750 && rBlue > 750) && (lRed > 750 && lGreen > 750 && lBlue > 750)) {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-                UPJorgw();
+                if (!minionReset){
+                    TwoJorge();
+                }
+            }
             } else if (rRed > 750 && rGreen > 750 && rBlue > 750) {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-                UPJorgw();
+                if (!minionReset){
+                    OneJorge();
+                }
             } else if (lRed > 750 && lGreen > 750 && lBlue > 750) {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-                UPJorgw();
+                if (!minionReset){
+                    OneJorge();
+                }
             } else {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
-                DOWNJorgw();
+                if (minionReset) {
+                    ResetJorge();
+                }
             }
 
             if (gamepad1.dpad_up){
@@ -174,6 +202,7 @@ public class CenterStageDriveCode extends LinearOpMode {
                 LBMotor.setPower(-0.7);
                 RBMotor.setPower(-0.7);
             }
+
             if (gamepad1.x){
                 Plane.setPosition(0);
             }
@@ -269,6 +298,7 @@ public class CenterStageDriveCode extends LinearOpMode {
                 TrapdoorL.setPosition(0.6);
 
             }
+
             //TrapdoorL.setPosition(Ltrapdoorposition);
             //TrapdoorR.setPosition(Rtrapdoorposition);
         }
