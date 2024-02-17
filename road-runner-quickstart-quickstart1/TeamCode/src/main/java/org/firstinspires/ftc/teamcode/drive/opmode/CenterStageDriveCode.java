@@ -36,13 +36,13 @@ public class CenterStageDriveCode extends LinearOpMode {
     }
 
     private void OneJorge() {
-        double JorgeOnePosiition = -1;
-        minion.setPosition(JorgeOnePosiition);
+        double JorgeOnePosition = -1;
+        minion.setPosition(JorgeOnePosition);
     }
 
     private void ResetJorge() {
-        double JorgeDOWNPosition = 0.5;
-        minion.setPosition(JorgeDOWNPosition);
+        double JorgeResetPosition = 0.5;
+        minion.setPosition(JorgeResetPosition);
     }
     @Override
     public void runOpMode() {
@@ -144,14 +144,15 @@ public class CenterStageDriveCode extends LinearOpMode {
             telemetry.addData("LBlue", lBlue);
             telemetry.update();
 
-            if (currentYState && !lastYState){
-                if (minionReset){
+            if (currentYState && !lastYState) {
+                if (minionReset) {
                     TwoJorge();
                     minionReset = false;
                 } else {
                     ResetJorge();
                     minionReset = true;
                 }
+            }
 
                 lastYState = currentYState;
 
@@ -160,7 +161,6 @@ public class CenterStageDriveCode extends LinearOpMode {
                 if (!minionReset){
                     TwoJorge();
                 }
-            }
             } else if (rRed > 750 && rGreen > 750 && rBlue > 750) {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
                 if (!minionReset){
@@ -210,7 +210,7 @@ public class CenterStageDriveCode extends LinearOpMode {
                 Plane.setPosition(1);
             }
             if(currentRBState && !lastRBState){
-                intakerun = !intakerun
+                intakerun = !intakerun;
             }
 
             lastRBState = currentRBState;
