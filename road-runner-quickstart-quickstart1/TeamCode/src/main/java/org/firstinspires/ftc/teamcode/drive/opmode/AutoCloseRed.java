@@ -55,6 +55,7 @@ public class AutoCloseRed extends LinearOpMode {
     String Prop;
     static final double     FORWARD_SPEED = 0.4;
     double DISTANCE = 28;
+    /*
     private void raiseArm() {
         // Set target position for the arm motors (example values)
         int targetPosition = 1000; // Adjust as needed
@@ -201,7 +202,7 @@ public class AutoCloseRed extends LinearOpMode {
 
         // Add "key" information to telemetry
 
-
+*/
        // end method telemetryAprilTag()
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -386,7 +387,7 @@ public class AutoCloseRed extends LinearOpMode {
             drive.followTrajectorySequence(trajright9);
             RBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
-            ATwork();
+          //  ATwork();
 
         while (opModeIsActive()){
 
