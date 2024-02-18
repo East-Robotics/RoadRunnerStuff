@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 @Autonomous
 public class AutoCloseBlue extends LinearOpMode {
 
@@ -33,8 +35,9 @@ public class AutoCloseBlue extends LinearOpMode {
     private SampleMecanumDrive drive;
 
     String Prop;
+    RevBlinkinLedDriver lights;
     static final double     FORWARD_SPEED = 0.4;
-    double DISTANCE = 28;
+    double DISTANCE = 40;
 
 
 
@@ -46,6 +49,8 @@ public class AutoCloseBlue extends LinearOpMode {
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
         sensorDistance = hardwareMap.get(DistanceSensor.class, "LBDistance");
         sensorDistanceR = hardwareMap.get(DistanceSensor.class, "RBDistance");
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
         int rotations = 900;
         drive = new SampleMecanumDrive(hardwareMap);
         //Pose2d startPose = new Pose2d(0, 0, 0);
@@ -57,7 +62,7 @@ public class AutoCloseBlue extends LinearOpMode {
                 .strafeRight(15)
                 .build();
         Trajectory trajBack2 = drive.trajectoryBuilder(trajectoryBack.end())
-                .forward(27)
+                .forward(38)
                 .build();
         TrajectorySequence trajBack3 = drive.trajectorySequenceBuilder(trajBack2.end())
                 .turn(Math.toRadians(97))
@@ -109,7 +114,7 @@ public class AutoCloseBlue extends LinearOpMode {
                 .turn(Math.toRadians(-35))
                 .build();
         Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
-                .back(13)
+                .back(15)
                 .build();
         Trajectory trajright4 = drive.trajectoryBuilder(trajright3.end())
                 .forward(15)

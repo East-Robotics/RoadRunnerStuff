@@ -30,12 +30,12 @@ public class CenterStageDriveCode extends LinearOpMode {
     ColorSensor LColor;
     RevBlinkinLedDriver lights;
 
-    private void UPJorgw() {
+    private void UPJorge() {
         double JorgeUPPosition = 1;
         minion.setPosition(JorgeUPPosition);
     }
 
-    private void DOWNJorgw() {
+    private void DOWNJorge() {
         double JorgeDOWNPosition = 0.5;
         minion.setPosition(JorgeDOWNPosition);
     }
@@ -127,6 +127,8 @@ public class CenterStageDriveCode extends LinearOpMode {
             int lGreen = LColor.green();
             int lBlue = LColor.blue();
 
+            String jorge = "down";
+
             telemetry.addData("RRed", rRed);
             telemetry.addData("RGreen", rGreen);
             telemetry.addData("RBlue", rBlue);
@@ -138,16 +140,16 @@ public class CenterStageDriveCode extends LinearOpMode {
 
             if ((rRed > 750 && rGreen > 750 && rBlue > 750) && (lRed > 750 && lGreen > 750 && lBlue > 750)) {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-                UPJorgw();
+                UPJorge();
             } else if (rRed > 750 && rGreen > 750 && rBlue > 750) {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-                UPJorgw();
+                UPJorge();
             } else if (lRed > 750 && lGreen > 750 && lBlue > 750) {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-                UPJorgw();
+                UPJorge();
             } else {
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
-                DOWNJorgw();
+                DOWNJorge();
             }
 
             if (gamepad1.dpad_up){
@@ -181,7 +183,7 @@ public class CenterStageDriveCode extends LinearOpMode {
                 Plane.setPosition(1);
             }
             if(currentRBState && !lastRBState){
-                intakerun = !intakerun
+                intakerun = !intakerun;
             }
 
             lastRBState = currentRBState;
@@ -218,8 +220,8 @@ public class CenterStageDriveCode extends LinearOpMode {
 
             }
             else{
-                Leftwristposition = 0.65;
-                Rightwristposition = 0.65;
+                Leftwristposition = 0.8;
+                Rightwristposition = 0.8;
             }
             LeftWrist.setPosition(Leftwristposition);
             RightWrist.setPosition(Rightwristposition);
@@ -229,11 +231,7 @@ public class CenterStageDriveCode extends LinearOpMode {
                 RightArm.setPower(-1);
                 LeftArm.setPower(-1);
             }
-            else{
-                RightArm.setPower(0);
-                LeftArm.setPower(0);
-            }
-            if (gamepad2.dpad_down){
+            else if (gamepad2.dpad_down){
                 RightArm.setPower(1);
                 LeftArm.setPower(1);
             }
@@ -267,7 +265,9 @@ public class CenterStageDriveCode extends LinearOpMode {
             }
             else{
                 TrapdoorL.setPosition(0.6);
-
+            }
+            if (gamepad2.y){
+                minion.setPosition(0.5);
             }
             //TrapdoorL.setPosition(Ltrapdoorposition);
             //TrapdoorR.setPosition(Rtrapdoorposition);

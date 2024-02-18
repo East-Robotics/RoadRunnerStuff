@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.opmode;
 
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,10 +14,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 @Autonomous
 public class AutoFarBlue extends LinearOpMode {
 
 
+    RevBlinkinLedDriver lights;
 
 
     private DcMotor LFMotor;
@@ -46,6 +49,8 @@ public class AutoFarBlue extends LinearOpMode {
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
         sensorDistance = hardwareMap.get(DistanceSensor.class, "LBDistance");
         sensorDistanceR = hardwareMap.get(DistanceSensor.class, "RBDistance");
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
         int rotations = 900;
         drive = new SampleMecanumDrive(hardwareMap);
         //Pose2d startPose = new Pose2d(0, 0, 0);

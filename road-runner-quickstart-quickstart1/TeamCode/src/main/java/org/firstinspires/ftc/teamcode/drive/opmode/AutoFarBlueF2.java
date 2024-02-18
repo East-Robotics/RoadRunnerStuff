@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 @Autonomous
 public class AutoFarBlueF2 extends LinearOpMode {
 
@@ -31,6 +32,8 @@ public class AutoFarBlueF2 extends LinearOpMode {
     private DcMotor InTakeRight;
 
     private SampleMecanumDrive drive;
+    RevBlinkinLedDriver lights;
+
 
     String Prop;
     static final double     FORWARD_SPEED = 0.4;
@@ -46,6 +49,8 @@ public class AutoFarBlueF2 extends LinearOpMode {
         RBMotor = hardwareMap.get(DcMotor.class, "RBMotor");
         sensorDistance = hardwareMap.get(DistanceSensor.class, "LBDistance");
         sensorDistanceR = hardwareMap.get(DistanceSensor.class, "RBDistance");
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
         int rotations = 900;
         drive = new SampleMecanumDrive(hardwareMap);
         //Pose2d startPose = new Pose2d(0, 0, 0);
@@ -109,7 +114,7 @@ public class AutoFarBlueF2 extends LinearOpMode {
                 .turn(Math.toRadians(-25))
                 .build();
         Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
-                .back(20)
+                .back(22)
                 .build();
         Trajectory trajright4 = drive.trajectoryBuilder(trajright3.end())
                 .forward(15)
@@ -124,7 +129,7 @@ public class AutoFarBlueF2 extends LinearOpMode {
                 .turn(Math.toRadians(100))
                 .build();
         TrajectorySequence trajright8 = drive.trajectorySequenceBuilder(trajleft7.end())
-                .back(85)
+                .back(90)
                 .build();
         telemetry.addData("Status", "Running");
         telemetry.update();

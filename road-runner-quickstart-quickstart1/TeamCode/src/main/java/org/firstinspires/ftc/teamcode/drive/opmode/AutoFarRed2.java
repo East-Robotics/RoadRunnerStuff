@@ -26,6 +26,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 @Autonomous
 public class AutoFarRed2 extends LinearOpMode {
 
@@ -53,6 +54,8 @@ public class AutoFarRed2 extends LinearOpMode {
 
     private SampleMecanumDrive drive;
 
+    RevBlinkinLedDriver lights;
+
     String Prop;
     static final double     FORWARD_SPEED = 0.4;
     double DISTANCE = 30;
@@ -75,6 +78,8 @@ public class AutoFarRed2 extends LinearOpMode {
         sensorDistanceR = hardwareMap.get(DistanceSensor.class, "RBDistance");
         LeftArm.setDirection(DcMotorSimple.Direction.REVERSE);
         RightArm.setDirection(DcMotorSimple.Direction.REVERSE);
+        lights = hardwareMap.get(RevBlinkinLedDriver.class, "lights");
+        lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
         int rotations = 900;
         drive = new SampleMecanumDrive(hardwareMap);
         //Pose2d startPose = new Pose2d(0, 0, 0);
@@ -109,6 +114,7 @@ public class AutoFarRed2 extends LinearOpMode {
             RightWrist.setPosition(targetPosition);
         }
 */
+
         Trajectory trajectoryBack = drive.trajectoryBuilder(new Pose2d())
                 .back(DISTANCE)
                 .build();
@@ -205,6 +211,29 @@ public class AutoFarRed2 extends LinearOpMode {
         //check if distance is within 20 inches
 
 
+            if (distanceInInches < 25) {
+
+                telemetry.addData("Telemetry", "Prop is Right");
+                telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
+                telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
+                telemetry.update();
+                Prop = "Right";
+
+            } else if (distanceRight < 25) {
+
+                telemetry.addData("Telemetry", "Prop is Left");
+                telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
+                telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
+                telemetry.update();
+                Prop = "Left";
+            } else {
+                telemetry.addData("Telemetry", "Prop is Center");
+                telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
+                telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
+                telemetry.update();
+                Prop = "Center";
+            }
+
         waitForStart();
 
         if (distanceInInches < 25) {
@@ -234,13 +263,13 @@ public class AutoFarRed2 extends LinearOpMode {
             drive.followTrajectory(trajectoryBack1);
             drive.followTrajectory(trajectoryBack);
             drive.followTrajectory(trajBack2);
-            drive.followTrajectorySequence(trajBack3);
-            drive.followTrajectorySequence(trajBack4);
+         //   drive.followTrajectorySequence(trajBack3);
+         //   drive.followTrajectorySequence(trajBack4);
             LFMotor.setDirection(DcMotor.Direction.REVERSE);
             LBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
             RBMotor.setDirection(DcMotor.Direction.REVERSE);
-            drive.followTrajectorySequence(trajBack5);
+          //  drive.followTrajectorySequence(trajBack5);
             RBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
 
@@ -252,16 +281,16 @@ public class AutoFarRed2 extends LinearOpMode {
             drive.followTrajectory(trajleft4);
             drive.followTrajectorySequence(trajleft5);
             drive.followTrajectorySequence(trajleft6);
-            drive.followTrajectorySequence(trajleft7);
-            drive.followTrajectorySequence(trajleft8);
+          //  drive.followTrajectorySequence(trajleft7);
+          //  drive.followTrajectorySequence(trajleft8);
             LFMotor.setDirection(DcMotor.Direction.REVERSE);
             LBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
             RBMotor.setDirection(DcMotor.Direction.REVERSE);
-            drive.followTrajectorySequence(trajleft9);
+          //  drive.followTrajectorySequence(trajleft9);
             RBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
-            drive.followTrajectorySequence(trajleft10);
+        //    drive.followTrajectorySequence(trajleft10);
             rotations = 500;
             LeftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             RightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -293,13 +322,13 @@ public class AutoFarRed2 extends LinearOpMode {
             drive.followTrajectory(trajright4);
             drive.followTrajectorySequence(trajright5);
             drive.followTrajectorySequence(trajright6);
-            drive.followTrajectorySequence(trajright7);
-            drive.followTrajectorySequence(trajright8);
+         //   drive.followTrajectorySequence(trajright7);
+          //  drive.followTrajectorySequence(trajright8);
             LFMotor.setDirection(DcMotor.Direction.REVERSE);
             LBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
             RBMotor.setDirection(DcMotor.Direction.REVERSE);
-            drive.followTrajectorySequence(trajright9);
+         //   drive.followTrajectorySequence(trajright9);
             RBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
 

@@ -220,6 +220,7 @@ public class AutoCloseRed extends LinearOpMode {
         sensorDistanceR = hardwareMap.get(DistanceSensor.class, "RBDistance");
         int rotations = 900;
         drive = new SampleMecanumDrive(hardwareMap);
+
         //Pose2d startPose = new Pose2d(0, 0, 0);
         //drive.setPoseEstimate(startPose);
         Trajectory trajectoryBack = drive.trajectoryBuilder(new Pose2d())
@@ -284,7 +285,7 @@ public class AutoCloseRed extends LinearOpMode {
                 .turn(Math.toRadians(-32))
                 .build();
         Trajectory trajright3 = drive.trajectoryBuilder(trajectoryRightturn.end())
-                .back(13)
+                .back(15)
                 .build();
         Trajectory trajright4 = drive.trajectoryBuilder(trajright3.end())
                 .forward(15)
@@ -304,48 +305,43 @@ public class AutoCloseRed extends LinearOpMode {
         TrajectorySequence trajright9 = drive.trajectorySequenceBuilder(trajright8.end())
                 .back(15)
                 .build();
-        telemetry.addData("Status", "Running");
-        telemetry.update();
 
 
-        double distanceInInches = sensorDistance.getDistance(DistanceUnit.INCH);
-        double distanceRight = sensorDistanceR.getDistance(DistanceUnit.INCH);
 
+       // waitForStart();
+        while (opModeInInit()) {
+            double distanceInInches = sensorDistance.getDistance(DistanceUnit.INCH);
+            double distanceRight = sensorDistanceR.getDistance(DistanceUnit.INCH);
+            if (distanceInInches < 30) {
 
-        //check if distance is within 20 inches
+                telemetry.addData("Telemetry", "Prop is Center");
+                telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
+                telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
+                telemetry.update();
+                Prop = "Center";
 
+            } else if (distanceRight < 25) {
 
-        waitForStart();
+                telemetry.addData("Telemetry", "Prop is Left");
+                telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
+                telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
+                telemetry.update();
+                Prop = "Left";
+            } else {
+                telemetry.addData("Telemetry", "Prop is Right");
+                telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
+                telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
+                telemetry.update();
+                Prop = "Right";
 
-        if (distanceInInches < 25) {
-
-            telemetry.addData("Telemetry", "Prop is Right");
-            telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
-            telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
-            telemetry.update();
-            Prop = "Right";
-
-        } else if (distanceRight < 25) {
-
-            telemetry.addData("Telemetry", "Prop is Left");
-            telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
-            telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
-            telemetry.update();
-            Prop = "Left";
-        }
-        else{
-            telemetry.addData("Telemetry", "Prop is Center");
-            telemetry.addData("Telemetry", sensorDistance.getDistance(DistanceUnit.INCH));
-            telemetry.addData("Telemetry", sensorDistanceR.getDistance(DistanceUnit.INCH));
-            telemetry.update();
-            Prop = "Center";
+            }
         }
         if (Prop == "Center") {
             drive.followTrajectory(trajectoryBack1);
             drive.followTrajectory(trajectoryBack);
             drive.followTrajectory(trajBack2);
-            drive.followTrajectorySequence(trajBack3);
-            drive.followTrajectorySequence(trajBack4);
+          //  drive.followTrajectorySequence(trajBack3);
+          //  drive.followTrajectorySequence(trajBack4);
             LFMotor.setDirection(DcMotor.Direction.REVERSE);
             LBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -361,8 +357,8 @@ public class AutoCloseRed extends LinearOpMode {
             drive.followTrajectory(trajleft4);
             drive.followTrajectorySequence(trajleft5);
             drive.followTrajectorySequence(trajleft6);
-            drive.followTrajectorySequence(trajleft7);
-            drive.followTrajectorySequence(trajleft8);
+          //  drive.followTrajectorySequence(trajleft7);
+         //   drive.followTrajectorySequence(trajleft8);
             LFMotor.setDirection(DcMotor.Direction.REVERSE);
             LBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -378,8 +374,8 @@ public class AutoCloseRed extends LinearOpMode {
             drive.followTrajectory(trajright4);
             drive.followTrajectorySequence(trajright5);
             drive.followTrajectorySequence(trajright6);
-            drive.followTrajectorySequence(trajright7);
-            drive.followTrajectorySequence(trajright8);
+           // drive.followTrajectorySequence(trajright7);
+          //  drive.followTrajectorySequence(trajright8);
             LFMotor.setDirection(DcMotor.Direction.REVERSE);
             LBMotor.setDirection(DcMotor.Direction.FORWARD);
             RFMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -390,7 +386,6 @@ public class AutoCloseRed extends LinearOpMode {
           //  ATwork();
 
         while (opModeIsActive()){
-
         }}}}
 
 
